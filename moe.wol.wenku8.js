@@ -6,7 +6,7 @@
 // @license      AGPL-3.0
 // @package      moe.wol.wenku8
 // @type         fikushon
-// @webSite      https://wenku8.npgamma.workers.dev/
+// @webSite      https://miru-wenku8.wol.moe/
 // ==/MiruExtension==
 
 /* MIT License Copyright (c) 2017 Amit Kumar Gupta */
@@ -140,8 +140,9 @@ export default class extends Extension {
             formBody.push(encodedKey + "=" + encodedValue)
         }
         formBody = formBody.join("&").replaceAll("%3D", "=")
+        // Due to unknown reason, it can only use fetch here. DO NOT CHANGE IT
         return await fetch(
-            "https://wenku8.npgamma.workers.dev/",
+            "https://wenku8-miru.wol.moe/",
             {
                 method: "POST",
                 body: formBody

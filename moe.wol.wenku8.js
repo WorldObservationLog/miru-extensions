@@ -128,7 +128,7 @@ export default class extends Extension {
     }
 
     async load() {
-        this.APPVER = ""
+        this.APPVER = "Wenku8-Extension-For-Miru v0.0.1(https://github.com/WorldObservationLog/miru-extensions)"
         this.XMLParser = XMLParser
     }
 

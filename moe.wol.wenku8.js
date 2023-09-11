@@ -142,7 +142,7 @@ export default class extends Extension {
         formBody = formBody.join("&").replaceAll("%3D", "=")
         // Due to unknown reason, it can only use fetch here. DO NOT CHANGE IT
         return await fetch(
-            "https://wenku8-miru.wol.moe/",
+            "https://miru-wenku8.wol.moe/",
             {
                 method: "POST",
                 body: formBody

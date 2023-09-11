@@ -91,11 +91,10 @@ export default class extends Extension {
         if (episode_dom.package.volume.length == undefined) {
             const chapters = []
             const v_title = episode_dom.package.volume["#text"]
-            const vid = episode_dom.package.volume["@_vid"]
             for (const chapter of episode_dom.package.volume.chapter) {
                 const c_title = chapter["#text"]
                 const cid = chapter["@_cid"]
-                const url = `${vid}/${cid}`
+                const url = `${title}/#/${" "+c_title}/#/${aid}/#/${cid}`
                 chapters.push({"name": c_title, "url": url})
             }
             episodes.push({"title": v_title, "urls": chapters})

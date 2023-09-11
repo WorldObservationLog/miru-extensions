@@ -6,7 +6,7 @@
 
 |Name|Site|Link|
 |----|----|---|
-|轻小说文库|[wenku8.net](https://www.wenku8.net)|[moe.wol.wenku8.js](https://github.com/WorldObservationLog/miru-extensions/moe.wol.wenku8.js)
+|轻小说文库|[wenku8.net](https://www.wenku8.net)|[moe.wol.wenku8.js](https://github.com/WorldObservationLog/miru-extensions/blob/main/moe.wol.wenku8.js)
 
 ## LICENSE
 

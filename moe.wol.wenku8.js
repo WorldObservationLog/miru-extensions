@@ -24,7 +24,7 @@ export default class extends Extension {
             const aid = item["@_aid"]
             const statusCode = parseInt(parseInt(aid) / 1000)
             const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"]
-            const url = `https://www.wennku8.net/book/${aid}.htm`
+            const url = aid
             const cover = `https://img.wenku8.com/image/${statusCode}/${aid}/${aid}s.jpg`
             const update = item.data.find(function (data) {return data["@_name"] == "LastUpdate"})["@_value"]
             results.push({title, url, cover, update})
@@ -42,7 +42,7 @@ export default class extends Extension {
             const aid = item["@_aid"]
             const statusCode = parseInt(parseInt(aid) / 1000)
             const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"]
-            const url = `https://www.wennku8.net/book/${aid}.htm`
+            const url = aid
             const cover = `https://img.wenku8.com/image/${statusCode}/${aid}/${aid}s.jpg`
             const update = item.data.find(function (data) {return data["@_name"] == "LastUpdate"})["@_value"]
             results.push({title, url, cover, update})
@@ -59,13 +59,12 @@ export default class extends Extension {
         for (const type of ["articlename", "author"]) {
             const req = this.generate_encrypted_body(`action=search&searchtype=${type}&searchkey=${kw}&t=0`)
             const resp = await this.req(req)
-            const content = await resp.text()
-            const dom = parser.parse(content)
+            const dom = parser.parse(await resp.text())
             for (const item of dom.result.item) {
                 const aid = item["@_aid"]
                 const statusCode = parseInt(parseInt(aid) / 1000)
                 const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"]
-                const url = `https://www.wennku8.net/book/${aid}.htm`
+                const url = aid
                 const cover = `https://img.wenku8.com/image/${statusCode}/${aid}/${aid}s.jpg`
                 const update = item.data.find(function (data) {return data["@_name"] == "LastUpdate"})["@_value"]
                 results.push({title, url, cover, update})
@@ -75,7 +74,45 @@ export default class extends Extension {
     }
 
     async detail(url) {
-        const aid = url.match("https://www.wennku8.net/book/(\d*).htm")[1]
+        const parser = new this.XMLParser({ignoreAttributes: false})
+        const aid = url
+        const statusCode = parseInt(parseInt(aid) / 1000)
+        const resp = await this.req(this.generate_encrypted_body(`action=book&do=info&aid=${aid}&t=0`))
+        const dom = parser.parse(await resp.text())
+        const title = dom.metadata.data.find(function (data) {return data["@_name"] == "Title"})["#text"]
+        const cover = `https://img.wenku8.com/image/${statusCode}/${aid}/${aid}s.jpg`
+        const desc = await (await this.req(this.generate_encrypted_body(`action=book&do=intro&aid=${aid}&t=0`))).text()
+        const author = dom.metadata.data.find(function (data) {return data["@_name"] == "Author"})["@_value"]
+        const episodes = []
+        const episode_resp = await this.req(this.generate_encrypted_body(`action=book&do=list&aid=${aid}&t=0`))
+        const episode_dom = parser.parse(await episode_resp.text())
+        if (episode_dom.package.volume.length == undefined) {
+            const chapters = []
+            const v_title = episode_dom.package.volume["#text"]
+            const vid = episode_dom.package.volume["@_vid"]
+            for (const chapter of episode_dom.package.volume.chapter) {
+                const c_title = chapter["#text"]
+                const cid = chapter["@_cid"]
+                const url = `${vid}/${cid}`
+                chapters.push({"name": c_title, "url": url})
+            }
+            episodes.push({"title": v_title, "urls": chapters})
+        }
+        else {
+            for (const volume of episode_dom.package.volume) {
+                const chapters = []
+                const v_title = volume["#text"]
+                const vid = volume["@_vid"]
+                for (const chapter of volume.chapter) {
+                    const c_title = chapter["#text"]
+                    const cid = chapter["@_cid"]
+                    const url = `${vid}/${cid}`
+                    chapters.push({"name": c_title, "url": url})
+                }
+                episodes.push({"title": v_title, "urls": chapters})
+            }
+        }
+        return {title, cover, desc, metadata: {"作者": author}, episodes}
     }
     
     async watch(url) {

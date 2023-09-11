@@ -102,11 +102,10 @@ export default class extends Extension {
             for (const volume of episode_dom.package.volume) {
                 const chapters = []
                 const v_title = volume["#text"]
-                const vid = volume["@_vid"]
                 for (const chapter of volume.chapter) {
                     const c_title = chapter["#text"]
                     const cid = chapter["@_cid"]
-                    const url = `${vid}/${cid}`
+                    const url = `${title}/#/${" "+c_title}/#/${aid}/#/${cid}`
                     chapters.push({"name": c_title, "url": url})
                 }
                 episodes.push({"title": v_title, "urls": chapters})
@@ -116,7 +115,16 @@ export default class extends Extension {
     }
     
     async watch(url) {
-        const aid = url.match("https://www.wennku8.net/book/(\d*).htm")[1]
+        const title = url.split("/#/")[0]
+        const subtitle = url.split("/#/")[1]
+        const aid = url.split("/#/")[2]
+        const cid = url.split("/#/")[3]
+        const content = await (await this.req(this.generate_encrypted_body(`action=book&do=text&aid=${aid}&cid=${cid}&t=0`))).text()
+        let contents = content.split("\n")
+        if (content.includes("<!--image-->")) {
+            contents = ["Miru暂不支持查看插图！"]
+        }
+        return {title, subtitle, "content": contents}
     }
 
     async load() {

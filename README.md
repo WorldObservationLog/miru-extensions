@@ -1,6 +1,8 @@
 # Miru Extensions
 
-自用Miru插件，主要是轻小说相关。
+自用[Miru](https://miru.js.org)插件，主要是轻小说相关。
+
+使用了私有API，所以暂时不会考虑放到Repo上面去。
 
 ## Extensions
 

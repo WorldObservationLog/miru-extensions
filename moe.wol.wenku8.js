@@ -105,9 +105,9 @@ export default class extends Extension {
         const episode_dom = parser.parse(await episode_resp.text())
         if (episode_dom?.package?.volume?.length == undefined) {
             const chapters = []
-            const v_title = episode_dom.package.volume["#text"]
+            const v_title = episode_dom.package.volume["#text"].toString()
             for (const chapter of episode_dom.package.volume.chapter) {
-                const c_title = chapter["#text"]
+                const c_title = chapter["#text"].toString()
                 const cid = chapter["@_cid"]
                 const url = `${title}/#/${" "+c_title}/#/${aid}/#/${cid}`
                 chapters.push({"name": c_title, "url": url})
@@ -117,20 +117,20 @@ export default class extends Extension {
         else {
             for (const volume of episode_dom.package.volume) {
                 const chapters = []
-                const v_title = volume["#text"]
+                const v_title = volume["#text"].toString()
                 if (volume?.chapter?.length == undefined) {
                     const chapter = volume.chapter
                     if (chapter == undefined) {
                         continue
                     }
-                    const c_title = chapter["#text"]
+                    const c_title = chapter["#text"].toString()
                     const cid = chapter["@_cid"]
                     const url = `${title}/#/${" "+c_title}/#/${aid}/#/${cid}`
                     chapters.push({"name": c_title, "url": url})
                 }
                 else {
                     for (const chapter of volume.chapter) {
-                        const c_title = chapter["#text"]
+                        const c_title = chapter["#text"].toString()
                         const cid = chapter["@_cid"]
                         const url = `${title}/#/${" "+c_title}/#/${aid}/#/${cid}`
                         chapters.push({"name": c_title, "url": url})

@@ -25,7 +25,7 @@ export default class extends Extension {
         for (const item of dom.result.item) {
             const aid = item["@_aid"]
             const statusCode = parseInt(parseInt(aid) / 1000)
-            const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"]
+            const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"].toString()
             const url = aid
             const cover = `https://img.wenku8.com/image/${statusCode}/${aid}/${aid}s.jpg`
             const update = item.data.find(function (data) {return data["@_name"] == "LastUpdate"})["@_value"]
@@ -43,7 +43,7 @@ export default class extends Extension {
         for (const item of dom.result.item) {
             const aid = item["@_aid"]
             const statusCode = parseInt(parseInt(aid) / 1000)
-            const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"]
+            const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"].toString()
             const url = aid
             const cover = `https://img.wenku8.com/image/${statusCode}/${aid}/${aid}s.jpg`
             const update = item.data.find(function (data) {return data["@_name"] == "LastUpdate"})["@_value"]
@@ -69,7 +69,7 @@ export default class extends Extension {
                 const item = dom.result.item
                 const aid = item["@_aid"]
                 const statusCode = parseInt(parseInt(aid) / 1000)
-                const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"]
+                const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"].toString()
                 const url = aid
                 const cover = `https://img.wenku8.com/image/${statusCode}/${aid}/${aid}s.jpg`
                 const update = item.data.find(function (data) {return data["@_name"] == "LastUpdate"})["@_value"]
@@ -79,7 +79,7 @@ export default class extends Extension {
                 for (const item of dom.result.item) {
                     const aid = item["@_aid"]
                     const statusCode = parseInt(parseInt(aid) / 1000)
-                    const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"]
+                    const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"].toString()
                     const url = aid
                     const cover = `https://img.wenku8.com/image/${statusCode}/${aid}/${aid}s.jpg`
                     const update = item.data.find(function (data) {return data["@_name"] == "LastUpdate"})["@_value"]

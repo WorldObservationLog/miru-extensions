@@ -62,14 +62,16 @@ export default class extends Extension {
             const req = this.generate_encrypted_body(`action=search&searchtype=${type}&searchkey=${kw}&t=0`)
             const resp = await this.req(req)
             const dom = parser.parse(await resp.text())
-            for (const item of dom.result.item) {
-                const aid = item["@_aid"]
-                const statusCode = parseInt(parseInt(aid) / 1000)
-                const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"]
-                const url = aid
-                const cover = `https://img.wenku8.com/image/${statusCode}/${aid}/${aid}s.jpg`
-                const update = item.data.find(function (data) {return data["@_name"] == "LastUpdate"})["@_value"]
-                results.push({title, url, cover, update})
+            if (dom.result != "") {
+                for (const item of dom.result.item) {
+                    const aid = item["@_aid"]
+                    const statusCode = parseInt(parseInt(aid) / 1000)
+                    const title = item.data.find(function (data) {return data["@_name"] == "Title"})["#text"]
+                    const url = aid
+                    const cover = `https://img.wenku8.com/image/${statusCode}/${aid}/${aid}s.jpg`
+                    const update = item.data.find(function (data) {return data["@_name"] == "LastUpdate"})["@_value"]
+                    results.push({title, url, cover, update})
+                }
             }
         }
         return results

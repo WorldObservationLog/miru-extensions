@@ -131,3 +131,5 @@ dist
 
 # test
 test.js
+extension.js
+require.js

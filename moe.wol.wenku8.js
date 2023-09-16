@@ -7,7 +7,7 @@
 // @license      AGPL-3.0
 // @package      moe.wol.wenku8
 // @type         fikushon
-// @webSite      https://miru-wenku8.wol.moe/
+// @webSite      https://www.wenku8.net
 // ==/MiruExtension==
 
 /* fast-xml-parser to parse xml data */
